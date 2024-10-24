@@ -1,9 +1,7 @@
 #@ load("@ytt:data","data")
 ---
 service:
-  filters:
-  #@ if/end data.values.serviceStripPrefixEnabled:
-  - #@ 'StripPrefix=' + data.values.serviceStripPrefixValue
+  filters: #@ data.values.serviceFilters
   pathPrefix: #@ data.values.servicePredicatePath
 openapi:
   location: https://cp.homelab.fynesy.com/api-docs

@@ -260,8 +260,8 @@ engine:
           with: "#openApiToRouteConfigConversionServiceEndpoint"
         - text: SERVICE_TO_FACADE_APP_NAME
           with: "#serviceAppName"
-        - text: SERVICE_STRIP_PREFIX_VALUE
-          with: "#serviceStripPrefixValue"
+        # - text: SERVICE_STRIP_PREFIX_VALUE
+        #   with: "#serviceStripPrefixValue"
         - text: SERVICE_PREDICATE_PATH
           with: "#servicePredicatePath"
 
