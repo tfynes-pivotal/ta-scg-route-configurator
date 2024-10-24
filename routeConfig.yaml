@@ -1,0 +1,10 @@
+#@ load("@ytt:data","data")
+---
+service:
+  filters:
+  - StripPrefix=1
+  predicates:
+  - Path=/cp/**
+openapi:
+  location: https://cp.homelab.fynesy.com/api-docs
+routes: #@ data.values.routesArray
