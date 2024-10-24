@@ -13,7 +13,7 @@ accelerator:
     description: Name for tPCF SpringCloudGateway service instance
     display: true
     inputType: text
-    defaultValue: demo-gateway
+    defaultValue: cpfacade
 
 ##########################################################################################################
 
@@ -29,7 +29,7 @@ accelerator:
     label: "Gateway Configuration: Hostname"
     display: true
     inputType: text
-    defaultValue: demo-gateway
+    defaultValue: cpfacade
     dependsOn: 
       name: createGateway
       value: true 
@@ -85,24 +85,30 @@ accelerator:
     description: "Configure service to be accessible via a 'path-prefix' via the service gateway. E.g. when facading multiple services with single gateway"
     display: true
     inputType: text
-    defaultValue: "/cp/**"
+    defaultValue: "/cp"
 
-  - name: serviceStripPrefixEnabled
-    label: "Service Configuration: Strip-prefix override"
-    description: "Non-default (<1 or >1) prefix path count"
-    display: true
-    dataType: boolean
-    inputType: checkbox
-    defaultValue: false
+  # - name: serviceStripPrefixEnabled
+  #   label: "Service Configuration: Strip-prefix override"
+  #   description: "Non-default (<1 or >1) prefix path count"
+  #   display: true
+  #   dataType: boolean
+  #   inputType: checkbox
+  #   defaultValue: false
 
-  - name: serviceStripPrefixValue
-    label: "Service Configuration: Strip Prefix Count"
+  # - name: serviceStripPrefixValue
+  #   label: "Service Configuration: Strip Prefix Count"
+  #   display: true
+  #   inputType: text
+  #   defaultValue: "0"
+  #   dependsOn:
+  #     name: serviceStripPrefixEnabled
+  #     value: true
+
+  - name: serviceFilters
+    label: "Service Configuration: Filters"
     display: true
-    inputType: text
-    defaultValue: "0"
-    dependsOn:
-      name: serviceStripPrefixEnabled
-      value: true
+    dataType: [string]
+    defaultValue: ["StripPrefix=1"]
 
   - name: serviceAppName
     label: "Service Configuration: tPCF Application Name"
@@ -122,7 +128,7 @@ accelerator:
     label: "Route Configuration: override"
     description: "Path/Method match service methods to provide additional configuration"
     dataType: [Route]
-    defaultValue: [{ "routeContext":"/**","routeserviceOpenApiUrl":"https://cp.homelab.fynesy.com/api-docs","routeVerbs":"GET,PUT,POST,PATCH,DELETE","routeStripPrefix":"0","routeOrder":"10"}]
+    defaultValue: [{ "path":"/**","method":"GET,PUT,POST,PATCH,DELETE","filters":["StripPrefix=0"],"order":"10"}]
 
 
   
@@ -208,21 +214,20 @@ accelerator:
 
     - name: Route
       struct:
-        - name: routeContext
+        - name: path
           dataType: string
           label: "Match Rule: Context / Path"
-        - name: routeVerbs
+        - name: method 
           dataType: string
           label: "Match Rule: HTTP Verbs"
-          description: Backing service context
-        - name: routeStripPrefix
-          dataType: string
-          label: "Additional path prefix strip count"
-        - name: routeOrder
+        - name: filters
+          dataType: [string]
+          label: "Filters"
+        - name: order
           datatype: string
           label: Route Priority
 
-        
+    
 
 
 
@@ -264,8 +269,8 @@ engine:
           with: "#routesArray.toString()"
       - merge:
         - include: ["**"]
-          exclude: ['routeConfig.yaml']
-        - include: ['routeConfig.yaml']
+          exclude: ['tpcf-gateway/routeConfig.yaml']
+        - include: ['tpcf-gateway/routeConfig.yaml']
           chain:
           - type: YTT
       - merge:
@@ -284,3 +289,16 @@ engine:
             - text: GATEWAY_API_GROUP_ID
               with: "#gatewayApiGroupId"
             condition: "#createGateway"
+  
+  - exclude: ['notes.txt']
+    include: ['**']
+  - exclude: ['.git/**']
+    include: ['**']
+  - exclude: ['.vscode/**']
+    include: ['**']
+  - exclude: ['tpcf-gateway/unused/**']
+    include: ['**']
+
+  - exclude: ['tpcf-gateway/1-create-gateway.sh','tpcf-gateway/gateway.json']
+    include: ['**']
+    condition: "#createGateway != true"
