@@ -4,5 +4,5 @@ service:
   filters: #@ data.values.serviceFilters
   pathPrefix: #@ data.values.servicePredicatePath
 openapi:
-  location: https://cp.homelab.fynesy.com/api-docs
+  location: #@ data.values.serviceOpenApiUrl
 routes: #@ data.values.routesArray
