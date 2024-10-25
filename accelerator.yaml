@@ -69,6 +69,37 @@ accelerator:
     dependsOn: 
       name: createGateway
       value: true 
+  
+  - name: gatewaySecured
+    label: "SSO Protect Gateway"
+    description: oAuth Gateway protection using SSO-Serivce instance
+    display: true
+    dataType: boolean
+    inputType: checkbox
+    defaultValue: false
+    dependsOn:
+      name: createGateway
+      value: true
+
+  - name: ssoPlan
+    label: tPCF SSO Serivce Instance Name
+    description: Provides indentity provider details to gateway
+    display: true
+    dataType: string
+    defaultValue: internal
+    dependsOn:
+      name: gatewaySecured
+      value: true
+
+  - name: ssoScopes
+    label: Service SSO Scopes List
+    description: List of SSO scopes gateway is permitted to use
+    display: true
+    dataType: [string]
+    defaultValue: ["opendid","group1","group2"]
+    dependsOn:
+      name: gatewaySecured
+      value: true
 
 ##########################################################################################################
 

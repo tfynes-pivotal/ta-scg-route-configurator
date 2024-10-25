@@ -1,0 +1,12 @@
+#@ load("@ytt:data","data")
+---
+host: #@ data.values.gatewayHostname
+title: #@ data.values.gatewayTitle
+description: #@ data.values.gatewayDescription
+version: #@ data.values.gatewayVersion
+api-group-id: #@ data.values.gatewayApiGroupId
+#@ if data.values.gatewaySecured:
+sso:
+  plan: #@ data.values.ssoPlan
+  scopes: #@ data.values.ssoScopes
+#@ end
