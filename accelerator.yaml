@@ -96,7 +96,7 @@ accelerator:
     description: List of SSO scopes gateway is permitted to use
     display: true
     dataType: [string]
-    defaultValue: ["opendid","group1","group2"]
+    defaultValue: ["openid","group1","group2"]
     dependsOn:
       name: gatewaySecured
       value: true
@@ -254,6 +254,7 @@ accelerator:
         - name: filters
           dataType: [string]
           label: "Filters"
+          description: Filters list for route; e.g. 'SsoLogin' and 'Scopes=group1'
         - name: order
           datatype: string
           label: Route Priority
@@ -300,8 +301,8 @@ engine:
           with: "#routesArray.toString()"
       - merge:
         - include: ["**"]
-          exclude: ['tpcf-gateway/routeConfig.yaml']
-        - include: ['tpcf-gateway/routeConfig.yaml']
+          exclude: ['tpcf-gateway/*.yaml']
+        - include: ['tpcf-gateway/*.yaml']
           chain:
           - type: YTT
       - merge:

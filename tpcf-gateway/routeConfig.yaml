@@ -2,7 +2,9 @@
 ---
 service:
   filters: #@ data.values.serviceFilters
+  #@ if data.values.servicePredicatePath != '':
   pathPrefix: #@ data.values.servicePredicatePath
+  #@ end
 openapi:
   location: #@ data.values.serviceOpenApiUrl
 routes: #@ data.values.routesArray
